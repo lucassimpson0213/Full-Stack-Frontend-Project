@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>WebSocket Example</title>
+  </head>
+  <body>
+    <script>
+      let ws;
+
+      // Fix the missing closing quote in 'ws' protocol check
+      const proto = window.location.protocol === 'https:' ? 'wss' : 'ws';
+
+      // Initialize WebSocket connection
+      ws = new WebSocket(`${proto}://${window.location.host}`);
+      
+      // WebSocket message event listener
+      ws.onmessage = (event) => {
+        console.log(event.data);
+      };
+
+      // Optional: Log connection status
+      ws.onopen = () => console.log('WebSocket connected');
+      ws.onclose = () => console.log('WebSocket closed');
+      ws.onerror = (error) => console.error('WebSocket error:', error);
+    </script>
+  </body>
+</html>
+
