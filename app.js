@@ -13,20 +13,6 @@ server.on('request', app)
 
 server.listen(3000, function () { console.log("listening on 3000"); });
 
-/** start websocketsconst express = require('express');
-const server = require('http').createServer();
-
-const app = express();
-
-app.get('/', function(req, res) {
-    res.sendFile('index.html', { root: __dirname });
-});
-
-server.on('request', app);
-
-server.listen(3000, function () {
-    console.log("listening on 3000");
-});
 
 /** Start WebSockets **/
 const WebSocketServer = require('ws').Server;
