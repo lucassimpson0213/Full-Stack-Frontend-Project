@@ -38,20 +38,23 @@ server.on('request', app)
 
 
 server.listen(3000, function () { console.log("listening on 3000"); });
-wss.clients.forEach(function each(client) {
-    client.close();
-})
-process.on('SIGINT', () => {
-    server.close(() => {
-        shutdownDB();
-    })
-})
+
+
 
 
 /** Start WebSockets **/
 const WebSocketServer = require('ws').Server;
 
 const wss = new WebSocketServer({ server: server });
+
+process.on('SIGINT', () => {
+    wss.clients.forEach(function each(client) {
+    client.close();
+})
+    server.close(() => {
+        shutdownDB();
+    })
+})
 
 wss.on('connection', function (ws) {
     const numClients = wss.clients.size;
@@ -62,8 +65,8 @@ wss.on('connection', function (ws) {
         ws.send('Welcome to my server');
     }
 
-    db.run(`INSERT INTO visitors (count time)
-        VALUES(${numClients} datetime('now'))`);
+    db.run(`INSERT INTO visitors (count, time)
+        VALUES(${numClients}, datetime('now'))`);
 
     ws.on('close', function() {
         const updatedClients = wss.clients.size; // Recalculate the client count
